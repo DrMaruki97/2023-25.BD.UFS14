@@ -2,6 +2,8 @@ import azure.functions as func
 import datetime
 import json
 import logging
+import requests as req
+from bs4 import BeautifulSoup
 
 app = func.FunctionApp()
 
@@ -29,14 +31,17 @@ def get_main(req: func.HttpRequest) -> func.HttpResponse:
             if el['pcpc_ingredientname'] == ingredient_name or el['pcpc_ciringredientname'] == ingredient_name:
 
                 link = f'https://cir-reports.cir-safety.org/cir-ingredient-status-report/?id={el["pcpc_ingredientid"]}'
-                return func.HttpResponse(f'Pagina CIR dell\'ingrediente richiesto: {link}')
+                payload = {'ingredient_name': ingredient_name,
+                           'cir_name': el['pcpc_ciringredientname'],
+                           'main_link': link}
+                return func.HttpResponse(json.dump(payload),mimetype= 'application/json')
             
             else:
                 continue
 
         if not link:
 
-            return func.HttpResponse(f'Impossibile trovare una pagine per l\'ingrediente {ingredient_name}')
+            return func.HttpResponse({},mimetype='application/json')
 
 
     else:
@@ -53,7 +58,7 @@ def get_pdf_link(req: func.HttpRequest) -> func.HttpResponse:
     header = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36'}
     url_base = 'https://cir-reports.cir-safety.org/'
 
-    web_page = req.get(link,headers=header)
+    web_page = req.get(req,headers=header)
     page = BeautifulSoup(web_page.text,'html.parser')
 
     # I link relativi alle fonti sono salvati in tag 'tr' che compongono una tabella, per cui estraiamo solo quelli
@@ -86,8 +91,14 @@ def get_pdf_link(req: func.HttpRequest) -> func.HttpResponse:
                 pdf_name = righe[riga].find_all('td')[-2].text
         else:
             final_url = ''
+            date = ''
+            pdf_name = ''
     else:
         final_url = ''
+        date = ''
+        pdf_name = ''
+
+    
 
     return func.HttpResponse(final_url)
 
