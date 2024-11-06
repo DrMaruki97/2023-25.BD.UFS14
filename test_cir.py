@@ -37,11 +37,11 @@ def test_ingredient_json():
 
 
 def test_snapshot_get_table(snapshot):
-    with open('web_page_test','r') as f:
+    with open('web_page_test.html') as f:
         web_page = f
     
-    snapshot.snapshot_dir = 'snapshots'
-    snapshot.assert_match(str(cir.get_source_table(web_page)),'source_table_test.txt')
-    
+        snapshot.snapshot_dir = 'snapshots'
+        snapshot.assert_match(str(cir.get_source_table(web_page)),'source_table_test.txt')
+
 
 

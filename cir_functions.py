@@ -35,7 +35,7 @@ def get_table_link(ingrediente):
 
 
 def get_source_table(web_page):
-    page = BeautifulSoup(web_page.text,'html.parser')
+    page = BeautifulSoup(web_page,'html.parser')
     righe = page.find_all('tr')
     return righe
 
