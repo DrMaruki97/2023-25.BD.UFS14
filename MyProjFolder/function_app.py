@@ -5,7 +5,7 @@ import logging
 import regex as re
 import pypdf as pdf
 import requests as rq
-from cir_functions import get_source_table, get_pdf_values, sorting_func
+from test_dir.cir_functions import get_source_table, get_pdf_values, sorting_func
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 from bs4 import BeautifulSoup

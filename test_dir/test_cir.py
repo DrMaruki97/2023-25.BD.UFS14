@@ -1,4 +1,5 @@
 #region Libraries and useful functions
+
 import cir_functions as cir
 import json
 from jsonschema import validate
@@ -9,6 +10,7 @@ def bool_validate(instance,schema):
         return True
     except:
         return False
+    
 #endregion
 
 
@@ -28,7 +30,7 @@ def test_ingredient_json():
         },
     }
 
-    with open('cir_json_1.json','r') as f:
+    with open('/workspaces/2023-25.BD.UFS14/test_dir/cir_json_1.json','r') as f:
         file = json.load(f)
 
     istanza = cir.get_ingredient_json(file,1)
@@ -37,10 +39,10 @@ def test_ingredient_json():
 
 
 def test_snapshot_get_table(snapshot):
-    with open('web_page_test.html') as f:
+    with open('/workspaces/2023-25.BD.UFS14/test_dir/web_page_test.html') as f:
         web_page = f
     
-        snapshot.snapshot_dir = 'snapshots'
+        snapshot.snapshot_dir = '/workspaces/2023-25.BD.UFS14/test_dir/snapshots'
         snapshot.assert_match(str(cir.get_source_table(web_page)),'source_table_test.txt')
 
 

@@ -33,7 +33,7 @@ def test_jsonschema():
     assert bool_validate({"name": "bacon","price":40},schema=schema) == True
 
 def test_json_snapshot(snapshot):
-    snapshot.snapshot_dir = 'snapshots'
+    snapshot.snapshot_dir = '/workspaces/2023-25.BD.UFS14/test_dir/snapshots'
     snapshot.assert_match(str(func(5)),'func_output.txt')
 
 
@@ -43,5 +43,5 @@ mela,10,rossa
 ananas,1000,giallo'''
 
 def test_json_snapshot_csv(snapshot):
-    snapshot.snapshot_dir = 'snapshots'
+    snapshot.snapshot_dir = '/workspaces/2023-25.BD.UFS14/test_dir/snapshots'
     snapshot.assert_match(frutti,'frutti.csv')
